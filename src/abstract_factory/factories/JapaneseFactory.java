@@ -1,5 +1,6 @@
 package abstract_factory.factories;
 
+import abstract_factory.DinnerFactory;
 import abstract_factory.drinks.Drink;
 import abstract_factory.drinks.GreenTee;
 import abstract_factory.maindishes.MainDish;

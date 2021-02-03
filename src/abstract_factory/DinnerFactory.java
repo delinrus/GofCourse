@@ -1,4 +1,4 @@
-package abstract_factory.factories;
+package abstract_factory;
 
 import abstract_factory.drinks.Drink;
 import abstract_factory.maindishes.MainDish;
