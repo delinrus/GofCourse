@@ -4,5 +4,6 @@ public enum FoodType {
     PIZZA,
     FISH,
     COOKIES,
-    CAKE
+    CAKE,
+    NEW_FOOD_TYPE
 }

@@ -6,5 +6,6 @@ public class Main {
         oven.bake(FoodType.PIZZA);
         oven.bake(FoodType.FISH);
         oven.bake(null);
+        oven.bake(FoodType.NEW_FOOD_TYPE);
     }
 }

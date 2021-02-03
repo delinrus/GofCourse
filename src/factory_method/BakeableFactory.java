@@ -1,19 +1,27 @@
 package factory_method;
 
+import java.util.Map;
+import java.util.function.Supplier;
+
+import static factory_method.FoodType.*;
+
 public class BakeableFactory {
-    static Bakeable create(FoodType foodType) {
-        if (foodType != null) {
-            switch (foodType) {
-                case PIZZA:
-                    return new Pizza();
-                case FISH:
-                    return new Fish();
-                case COOKIES:
-                    return new Cookies();
-                case CAKE:
-                    return new Cake();
-            }
+
+    private static final Map<FoodType, Supplier<Bakeable>> factoryMap = Map.of(
+            PIZZA, Pizza::new,
+            FISH, Fish::new,
+            COOKIES, Cookies::new,
+            CAKE, Cake::new
+    );
+
+    public static Bakeable create(FoodType foodType) {
+        if (foodType == null) {
+            return new NothingToBake();
         }
-        return new NothingToBake();
+        Supplier<Bakeable> factory = factoryMap.get(foodType);
+        if (factory == null) {
+            return new NothingToBake();
+        }
+        return factory.get();
     }
 }
