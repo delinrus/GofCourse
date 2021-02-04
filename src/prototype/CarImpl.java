@@ -2,8 +2,7 @@ package prototype;
 
 import java.util.Objects;
 
-public class CarImpl implements Car, Cloneable  {
-    // Production properties
+public class CarImpl extends Car implements CarWide {
     private float maxSpeed;
     private int load;
     private int seats;
@@ -11,38 +10,25 @@ public class CarImpl implements Car, Cloneable  {
     private String body;
     private String frame;
 
-    // Client properties
-    private String color;
-    private String number;
-
-    @Override
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    @Override
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    @Override
-    public String getColor() {
-        return color;
-    }
-
-    @Override
-    public String getNumber() {
-        return number;
-    }
-
-    @Override
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
+    public CarImpl(CarImpl target) {
+        super(target);
+        if (target != null) {
+            maxSpeed = target.maxSpeed;
+            load = target.load;
+            seats = target.seats;
+            engine = target.engine;
+            body = target.body;
+            frame = target.frame;
         }
+    }
+
+    public CarImpl() {
+        super();
+    }
+
+    @Override
+    public Car clone() {
+        return new CarImpl(this);
     }
 
     @Override
@@ -54,29 +40,9 @@ public class CarImpl implements Car, Cloneable  {
                 ", engine='" + engine + '\'' +
                 ", body='" + body + '\'' +
                 ", frame='" + frame + '\'' +
-                ", color='" + color + '\'' +
-                ", number='" + number + '\'' +
+                ", color='" + getColor() + '\'' +
+                ", number='" + getNumber() + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CarImpl car = (CarImpl) o;
-        return Float.compare(car.maxSpeed, maxSpeed) == 0 &&
-                load == car.load &&
-                seats == car.seats &&
-                Objects.equals(engine, car.engine) &&
-                Objects.equals(body, car.body) &&
-                Objects.equals(frame, car.frame) &&
-                Objects.equals(color, car.color) &&
-                Objects.equals(number, car.number);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(maxSpeed, load, seats, engine, body, frame, color, number);
     }
 
     public float getMaxSpeed() {
@@ -87,12 +53,24 @@ public class CarImpl implements Car, Cloneable  {
         this.maxSpeed = maxSpeed;
     }
 
+    @Override
+    public CarWide withMaxSpeed(float maxSpeed) {
+        setMaxSpeed(maxSpeed);
+        return this;
+    }
+
     public int getLoad() {
         return load;
     }
 
     public void setLoad(int load) {
         this.load = load;
+    }
+
+    @Override
+    public CarWide withLoad(int load) {
+        setLoad(load);
+        return this;
     }
 
     public int getSeats() {
@@ -103,12 +81,24 @@ public class CarImpl implements Car, Cloneable  {
         this.seats = seats;
     }
 
+    @Override
+    public CarWide withSeats(int seats) {
+        setSeats(seats);
+        return this;
+    }
+
     public String getEngine() {
         return engine;
     }
 
     public void setEngine(String engine) {
         this.engine = engine;
+    }
+
+    @Override
+    public CarWide withEngine(String engine) {
+        setEngine(engine);
+        return this;
     }
 
     public String getBody() {
@@ -119,6 +109,12 @@ public class CarImpl implements Car, Cloneable  {
         this.body = body;
     }
 
+    @Override
+    public CarWide withBody(String body) {
+        setBody(body);
+        return this;
+    }
+
     public String getFrame() {
         return frame;
     }
@@ -127,4 +123,28 @@ public class CarImpl implements Car, Cloneable  {
         this.frame = frame;
     }
 
+    @Override
+    public CarWide withFrame(String frame) {
+        setFrame(frame);
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CarImpl)) return false;
+        if (!super.equals(o)) return false;
+        CarImpl car = (CarImpl) o;
+        return Float.compare(car.maxSpeed, maxSpeed) == 0 &&
+                load == car.load &&
+                seats == car.seats &&
+                Objects.equals(engine, car.engine) &&
+                Objects.equals(body, car.body) &&
+                Objects.equals(frame, car.frame);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), maxSpeed, load, seats, engine, body, frame);
+    }
 }
