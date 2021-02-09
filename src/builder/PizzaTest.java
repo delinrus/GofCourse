@@ -19,9 +19,9 @@ public class PizzaTest {
     }
 
     private void testHelper(String expected) {
-        Pizza.Builder builder = new Pizza.Builder();
+        Pizza.Builder builder = Pizza.newBuilder();
         customMenu.forEach(builder::addComponent);
-        Pizza pizza = new Pizza(builder);
+        Pizza pizza = builder.build();
         assertEquals(expected, pizza.toString());
     }
 
@@ -51,5 +51,17 @@ public class PizzaTest {
         customMenu.put(MUSHROOMS, 120);
         customMenu.put(SEAFOOD, 180);
         testHelper("Pizza{cheese=100, bacon=150, pineapples=300, mushrooms=120, seafood=180}");
+    }
+
+    @Test
+    public void sequentialBuild() {
+        Pizza pizzaWithBacon = Pizza.newBuilder()
+                .withBacon(200)
+                .withCheese(100)
+                .build();
+
+        assertEquals("Pizza{cheese=100, bacon=200, pineapples=0, mushrooms=0, seafood=0}",
+                pizzaWithBacon.toString());
+
     }
 }

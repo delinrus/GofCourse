@@ -14,9 +14,9 @@ public class Main {
         customMenu.put(BACON, 100);
         customMenu.put(CHEESE, 200);
 
-        Pizza.Builder builder = new Pizza.Builder();
+        Pizza.Builder builder = Pizza.newBuilder();
         customMenu.forEach(builder::addComponent);
-        Pizza pizza = new Pizza(builder);
+        Pizza pizza = builder.build();
         System.out.println(pizza);
     }
 }

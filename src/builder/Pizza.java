@@ -7,18 +7,17 @@ import java.util.function.Function;
 import static builder.PizzaComponent.*;
 
 public class Pizza {
-    private final int cheese;
-    private final int bacon;
-    private final int pineapples;
-    private final int mushrooms;
-    private final int seafood;
+    private int cheese;
+    private int bacon;
+    private int pineapples;
+    private int mushrooms;
+    private int seafood;
 
-    public Pizza(Pizza.Builder builder) {
-        this.cheese = builder.cheese;
-        this.bacon = builder.bacon;
-        this.pineapples = builder.pineapples;
-        this.mushrooms = builder.mushrooms;
-        this.seafood = builder.seafood;
+    private Pizza(){
+    }
+
+    public static Pizza.Builder newBuilder() {
+        return new Pizza().new Builder();
     }
 
     @Override
@@ -32,12 +31,7 @@ public class Pizza {
                 '}';
     }
 
-    public static class Builder {
-        private int cheese = 0;
-        private int bacon = 0;
-        private int pineapples = 0;
-        private int mushrooms = 0;
-        private int seafood = 0;
+    public class Builder {
 
         private Map<PizzaComponent, Function<Integer, Builder>> handlerMap = new HashMap<>();
 
@@ -49,6 +43,10 @@ public class Pizza {
             handlerMap.put(SEAFOOD, this::withSeafood);
         }
 
+        public Pizza build() {
+            return Pizza.this;
+        }
+
         public void addComponent (PizzaComponent pizzaComponent, int value) {
             if (pizzaComponent != null) {
                 handlerMap.get(pizzaComponent).apply(value);
@@ -56,27 +54,27 @@ public class Pizza {
         }
 
         public Builder withCheese(int cheese) {
-            this.cheese = cheese;
+            Pizza.this.cheese = cheese;
             return this;
         }
 
         public Builder withBacon(int bacon) {
-            this.bacon = bacon;
+            Pizza.this.bacon = bacon;
             return this;
         }
 
         public Builder withPineapples(int pineapples) {
-            this.pineapples = pineapples;
+            Pizza.this.pineapples = pineapples;
             return this;
         }
 
         public Builder withMushrooms(int mushrooms) {
-            this.mushrooms = mushrooms;
+            Pizza.this.mushrooms = mushrooms;
             return this;
         }
 
         public Builder withSeafood(int seafood) {
-            this.seafood = seafood;
+            Pizza.this.seafood = seafood;
             return this;
         }
     }
