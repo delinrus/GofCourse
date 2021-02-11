@@ -1,7 +1,7 @@
 package singleton;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HeavyItem {
     public static final int ITEM_LIMIT = 10;
@@ -9,7 +9,7 @@ public class HeavyItem {
     private static int instanceCounter = 0;
 
     // If boolean value in the map is true then the item is free to be used again
-    private static final Map<HeavyItem, Boolean> items = new HashMap<>();
+    private static final ConcurrentHashMap<HeavyItem, Boolean> items = new ConcurrentHashMap<>();
 
     private final int instanceNumber;
 
