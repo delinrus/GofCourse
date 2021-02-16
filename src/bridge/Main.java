@@ -3,10 +3,10 @@ package bridge;
 public class Main {
 
     public static void main(String[] args) {
-        Cafe cafe = new Cafe(new ItalianCuisine());
-        System.out.println(cafe.serveComplexDinner());
+        Cafe cafe = new ComplexCafe(new ItalianCuisine());
+        System.out.println(cafe.serve());
 
-        SelectiveCafe selectiveCafe = new SelectiveCafe(new AmericanCuisine());
-        System.out.println(selectiveCafe.serveOnlyDesert());
+        DessertCafe desertCafe = new DessertCafe(new AmericanCuisine());
+        System.out.println(desertCafe.serve());
     }
 }

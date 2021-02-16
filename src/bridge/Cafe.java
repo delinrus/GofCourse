@@ -1,6 +1,6 @@
 package bridge;
 
-public class Cafe {
+public abstract class Cafe {
     protected Cuisine cuisine;
 
     public Cafe(Cuisine cuisine) {
@@ -15,8 +15,5 @@ public class Cafe {
         this.cuisine = cuisine;
     }
 
-    public String serveComplexDinner() {
-        return "The complex dinner of " + cuisine.getFirstDish() + ", " + cuisine.getSecondDish() + ", " +
-                cuisine.getThirdDish() + ", and " + cuisine.getDessert() + " have been served";
-    }
+    public abstract String serve();
 }
