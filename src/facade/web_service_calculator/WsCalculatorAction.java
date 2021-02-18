@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class wsCalculatorAction {
+public abstract class WsCalculatorAction {
 
     private final String URL_PATTERN = "http://www.dneonline.com/calculator.asmx?op=%s";
 

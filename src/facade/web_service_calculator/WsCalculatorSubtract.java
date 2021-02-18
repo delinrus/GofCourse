@@ -1,8 +1,8 @@
 package facade.web_service_calculator;
 
-public class wsCalculatorDivide extends wsCalculatorAction {
+public class WsCalculatorSubtract extends WsCalculatorAction {
     @Override
     protected String getOperation() {
-        return "Divide";
+        return "Subtract";
     }
 }
