@@ -1,13 +1,19 @@
 package proxy;
 
-import java.util.Map;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 
 public class CalculatorProxy implements Calculator {
 
-    private final Map<Integer, Operation> cache = new ConcurrentHashMap<>();
+    Cache<Operation, Integer> cache = Caffeine.newBuilder()
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .maximumSize(100)
+            .build();
+
     private final Calculator service;
 
     public CalculatorProxy(Calculator service) {
@@ -16,20 +22,11 @@ public class CalculatorProxy implements Calculator {
 
     private int doOperation(int x1, int x2, OperationType operationType, BinaryOperator<Integer> operator) {
         Operation operation = new Operation(x1, x2, operationType);
-        int hash = operation.hashCode();
-
-        // Getting result from cache if exists
-        if (cache.containsKey(hash)) {
-            Operation savedOperation = cache.get(hash);
-            if (operation.equals(savedOperation)) {
-                return savedOperation.getResult();
-            }
+        Integer result = cache.getIfPresent(operation);
+        if (result == null) {
+            result = operator.apply(x1, x2);
+            cache.put(operation, result);
         }
-
-        // Delegating operation to the service and saving result to cache
-        int result = operator.apply(x1, x2);
-        operation.setResult(result);
-        cache.put(hash, operation);
         return result;
     }
 
@@ -64,8 +61,6 @@ public class CalculatorProxy implements Calculator {
         private final int x1;
         private final int x2;
         private final OperationType operationType;
-        private int result; // Note: the result field is excluded from hashCode and equals methods
-
 
         public Operation(int x1, int x2, OperationType operation) {
             this.x1 = x1;
@@ -86,14 +81,6 @@ public class CalculatorProxy implements Calculator {
         @Override
         public int hashCode() {
             return Objects.hash(x1, x2, operationType);
-        }
-
-        public void setResult(int result) {
-            this.result = result;
-        }
-
-        public int getResult() {
-            return result;
         }
     }
 }
