@@ -20,14 +20,9 @@ public class CalculatorProxy implements Calculator {
         this.service = service;
     }
 
-    private int doOperation(int x1, int x2, OperationType operationType, BinaryOperator<Integer> operator) {
+    private Integer doOperation(int x1, int x2, OperationType operationType, BinaryOperator<Integer> operator) {
         Operation operation = new Operation(x1, x2, operationType);
-        Integer result = cache.getIfPresent(operation);
-        if (result == null) {
-            result = operator.apply(x1, x2);
-            cache.put(operation, result);
-        }
-        return result;
+        return cache.get(operation, o -> operator.apply(o.getX1(), o.getX2()));
     }
 
     @Override
@@ -66,6 +61,14 @@ public class CalculatorProxy implements Calculator {
             this.x1 = x1;
             this.x2 = x2;
             this.operationType = operation;
+        }
+
+        public int getX1() {
+            return x1;
+        }
+
+        public int getX2() {
+            return x2;
         }
 
         @Override
