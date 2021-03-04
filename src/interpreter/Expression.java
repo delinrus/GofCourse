@@ -3,5 +3,5 @@ package interpreter;
 import command.Pizza;
 
 public interface Expression {
-    Pizza interpret();
+    void interpret(Pizza context);
 }

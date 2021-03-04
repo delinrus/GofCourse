@@ -24,12 +24,14 @@ public class Interpreter {
         }
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(input);
-        Expression expression = new TerminalExpression();
+        MultiExpression multiExpression = new MultiExpression();
+
         while (matcher.find()) {
             PizzaComponent component = PizzaComponent.valueOf(matcher.group(1).toUpperCase());
             Integer value = Integer.parseInt(matcher.group(2));
-            expression = new NonTerminalExpression(expression, component, value);
+            Expression expression = new TerminalExpression(component, value);
+            multiExpression.add(expression);
         }
-        return expression;
+        return multiExpression;
     }
 }
