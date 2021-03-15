@@ -1,7 +1,7 @@
 package visitor.components;
 
 import visitor.Component;
-import visitor.Visitor;
+import visitor.Pizza;
 
 public class Seafood extends Component {
     public Seafood(int value) {
@@ -9,7 +9,7 @@ public class Seafood extends Component {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public void visit(Pizza pizza) {
+        pizza.setSeafood(getValue());
     }
 }

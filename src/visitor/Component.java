@@ -1,13 +1,11 @@
 package visitor;
 
-public abstract class Component {
+public abstract class Component implements Visitor {
     private int value;
 
     public Component(int value) {
         this.value = value;
     }
-
-    public abstract void accept(Visitor visitor);
 
     public int getValue() {
         return value;
